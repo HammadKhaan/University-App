@@ -208,20 +208,35 @@ const Home = ({navigation}) => {
             style={{fontSize: 20, color: colors.textColor, fontWeight: 'bold'}}>
             Top Rated Universities
           </Text>
-          <FlatList
-            data={topRated}
-            renderItem={({item}) => {
-              return (
-                <TouchableOpacity
-                  style={styles.uniButtons}
-                  onPress={() => {
-                    navigation.navigate('Description', {item: item});
-                  }}>
-                  <Text style={styles.uniButtonText}>{item.name}</Text>
-                </TouchableOpacity>
-              );
-            }}
-          />
+          <View style={{paddingVertical: 10}}>
+            <FlatList
+              data={topRated}
+              renderItem={({item}) => {
+                return (
+                  <TouchableOpacity
+                    style={styles.uniButtons}
+                    onPress={() => {
+                      navigation.navigate('Description', {item: item});
+                    }}>
+                    <View style={{flexDirection: 'row'}}>
+                      <Image
+                        source={item.logo}
+                        style={{height: 100, width: 100}}
+                        resizeMode="contain"
+                      />
+
+                      <View style={{width: 250, paddingHorizontal: 10}}>
+                        <Text numberOfLines={1} style={styles.uniButtonText}>
+                          {item.name}
+                        </Text>
+                        <Text numberOfLines={4}>{item.description}</Text>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
         </View>
       </View>
       <AwesomeAlert
@@ -273,6 +288,7 @@ const styles = StyleSheet.create({
     color: colors.background,
     fontSize: 17,
     fontWeight: 'bold',
+    flexWrap: 'nowrap',
   },
 });
 
