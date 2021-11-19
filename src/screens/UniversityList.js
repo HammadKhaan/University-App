@@ -14,13 +14,6 @@ import Logo from '../assets/logo.png';
 import ADIcons from 'react-native-vector-icons/AntDesign';
 
 const UniversityList = ({navigation, route}) => {
-  // const engineeringUnis = [
-  //   'PAF-Kiet',
-  //   'NED University',
-  //   'Bahria University',
-  //   'Dawood University',
-  // ];
-
   const handleSearch = e => {
     let text = e.toLowerCase();
     //let trucks = this.state.data;
@@ -46,32 +39,17 @@ const UniversityList = ({navigation, route}) => {
   };
 
   const [query, setQuery] = useState('');
-
   const {value, UniList} = route?.params;
-  // console.log(`UniList`, UniList);
   const [data, setData] = useState(UniList);
   const [dataCopy] = useState(UniList);
-  //console.log(`data`, data);
   const [empty, setEmpty] = useState(false);
+
   const search = (
-    <View
-      style={{
-        marginVertical: 22,
-        justifyContent: 'center',
-        alignItems: 'center',
-        //backgroundColor: 'red',
-      }}>
+    <View style={styles.searchView}>
       <TextInput
         placeholder="Search..."
         placeholderTextColor="white"
-        style={{
-          borderColor: 'white',
-          borderWidth: 2,
-          height: 40,
-          width: '70%',
-          paddingHorizontal: 10,
-          color: 'white',
-        }}
+        style={styles.search}
         value={query}
         onChangeText={e => {
           handleSearch(e);
@@ -81,126 +59,83 @@ const UniversityList = ({navigation, route}) => {
       />
     </View>
   );
+  const header = (
+    <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <TouchableOpacity
+        style={{paddingVertical: 22}}
+        onPress={() => {
+          navigation.navigate('Home');
+        }}>
+        <ADIcons name="arrowleft" color="white" size={30} />
+      </TouchableOpacity>
+      <View style={{justifyContent: 'center', alignItems: 'center'}}>
+        <Image
+          source={Logo}
+          style={{width: 200, height: 170}}
+          resizeMode="contain"
+        />
+      </View>
+      <View style={{flex: 0.2}}></View>
+    </View>
+  );
+  const title = (
+    <View>
+      <Text style={styles.text}>{`List of ${value} Universities`}</Text>
+    </View>
+  );
+  const noResults = (
+    <View style={styles.noResultsView}>
+      <Text style={styles.noResultsText}>No Results</Text>
+    </View>
+  );
+  const list = (
+    <FlatList
+      ListHeaderComponent={search}
+      data={data}
+      renderItem={({item}) => {
+        return (
+          <>
+            <TouchableOpacity
+              style={styles.uniButtons}
+              onPress={() => {
+                navigation.navigate('Description', {item: item});
+              }}>
+              <View style={{flexDirection: 'row'}}>
+                <Image
+                  source={item.logo}
+                  style={{height: 100, width: 100}}
+                  resizeMode="contain"
+                />
+
+                <View style={{width: '68%', paddingHorizontal: 10}}>
+                  <Text numberOfLines={1} style={styles.uniButtonText}>
+                    {item.name}
+                  </Text>
+                  <Text numberOfLines={4} style={{color: 'grey'}}>
+                    {item.description}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </>
+        );
+      }}
+    />
+  );
 
   return (
-    <ScrollView style={{backgroundColor: colors.background, height: '100%'}}>
+    <ScrollView style={styles.scroll}>
       <View style={styles.main}>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            //backgroundColor: 'red',
-          }}>
-          <TouchableOpacity
-            style={{
-              paddingVertical: 22,
-              //backgroundColor: 'blue',
-            }}
-            onPress={() => {
-              navigation.navigate('Home');
-            }}>
-            <ADIcons name="arrowleft" color="white" size={30} />
-          </TouchableOpacity>
-          <View
-            style={{
-              // flex: 1.5,
-              //backgroundColor: 'red',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <Image
-              source={Logo}
-              style={{width: 200, height: 170}}
-              resizeMode="contain"
-            />
-          </View>
-          <View style={{flex: 0.2}}></View>
-        </View>
-        <View>
-          <Text style={styles.text}>{`List of ${value} Universities`}</Text>
-        </View>
+        {header}
+        {title}
         <View style={{paddingVertical: 10}}>
           {empty ? (
             <>
-              <View
-                style={{
-                  marginVertical: 22,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  //backgroundColor: 'red',
-                }}>
-                <TextInput
-                  placeholder="Search..."
-                  placeholderTextColor="white"
-                  style={{
-                    borderColor: 'white',
-                    borderWidth: 2,
-                    height: 40,
-                    width: '70%',
-                    paddingHorizontal: 10,
-                    color: 'white',
-                  }}
-                  value={query}
-                  onChangeText={e => {
-                    handleSearch(e);
-                    setQuery(e);
-                    console.log(query);
-                  }}
-                />
-              </View>
-              <View
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  height: 300,
-                }}>
-                <Text
-                  style={{
-                    color: 'grey',
-                    fontSize: 35,
-                    fontWeight: 'bold',
-                  }}>
-                  No Results
-                </Text>
-              </View>
+              {search}
+              {noResults}
             </>
           ) : (
-            <>
-              <FlatList
-                ListHeaderComponent={search}
-                data={data}
-                renderItem={({item}) => {
-                  return (
-                    <>
-                      <TouchableOpacity
-                        style={styles.uniButtons}
-                        onPress={() => {
-                          navigation.navigate('Description', {item: item});
-                        }}>
-                        <View style={{flexDirection: 'row'}}>
-                          <Image
-                            source={item.logo}
-                            style={{height: 100, width: 100}}
-                            resizeMode="contain"
-                          />
-
-                          <View style={{width: '68%', paddingHorizontal: 10}}>
-                            <Text
-                              numberOfLines={1}
-                              style={styles.uniButtonText}>
-                              {item.name}
-                            </Text>
-                            <Text numberOfLines={4} style={{color: 'grey'}}>
-                              {item.description}
-                            </Text>
-                          </View>
-                        </View>
-                      </TouchableOpacity>
-                    </>
-                  );
-                }}
-              />
-            </>
+            <>{list}</>
           )}
         </View>
       </View>
@@ -209,11 +144,14 @@ const UniversityList = ({navigation, route}) => {
 };
 
 const styles = StyleSheet.create({
+  scroll: {
+    backgroundColor: colors.background,
+    height: '100%',
+  },
   main: {
     height: '100%',
     backgroundColor: colors.background,
     justifyContent: 'space-between',
-    //alignItems: 'center',
     paddingHorizontal: 15,
   },
   text: {
@@ -223,17 +161,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  //   button: {
-  //     padding: 10,
-  //     borderRadius: 10,
-  //     backgroundColor: colors.textColor,
-  //     marginTop: 5,
-  //   },
-  //   buttonText: {
-  //     color: colors.background,
-  //     fontSize: 15,
-  //     fontWeight: 'bold',
-  //   },
   uniButtons: {
     padding: 10,
     borderRadius: 10,
@@ -244,7 +171,30 @@ const styles = StyleSheet.create({
     color: colors.background,
     fontSize: 20,
     fontWeight: 'bold',
-    //textAlign: 'center',
+  },
+  searchView: {
+    marginVertical: 22,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  search: {
+    borderColor: 'white',
+    borderWidth: 2,
+    height: 40,
+    width: '70%',
+    paddingHorizontal: 10,
+    color: colors.textColor,
+  },
+  noResultsView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 250,
+  },
+
+  noResultsText: {
+    color: 'grey',
+    fontSize: 35,
+    fontWeight: 'bold',
   },
 });
 

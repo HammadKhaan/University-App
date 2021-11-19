@@ -128,158 +128,150 @@ const Home = ({navigation}) => {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut eniad minim veniam, quis nostrud exercitation ullamco laboris nisi utaliquip ex ea commodo consequat. Duis aute irure dolor inreprehenderit in voluptate velit esse cillum dolore eu fugiat nullapariatur. Excepteur sint occaecat cupidatat non proident, sunt inculpa qui officia deserunt mollit anim id est laborum.',
     },
   ];
-  return (
-    <ScrollView style={{backgroundColor: colors.background, height: '100%'}}>
-      <View style={styles.main}>
-        <View style={{flex: 1}}>
-          <Image
-            source={Logo}
-            style={{width: 250, height: 170}}
-            resizeMode="contain"
-          />
-        </View>
-        <View
-          style={{
-            borderBottomColor: 'grey',
-            borderBottomWidth: 1,
-            width: 900,
-          }}
-        />
-        <View style={{flex: 0.8, marginTop: 10}}>
-          <Text style={styles.text}>Search by Categories</Text>
-          <DropDownPicker
-            open={open}
-            value={value}
-            items={items}
-            setOpen={setOpen}
-            setValue={setValue}
-            setItems={setItems}
-          />
+  const logo = (
+    <View style={{flex: 1}}>
+      <Image
+        source={Logo}
+        style={{width: 250, height: 170}}
+        resizeMode="contain"
+      />
+    </View>
+  );
+  const divider = <View style={styles.divider} />;
+  const searchCategories = (
+    <View style={{flex: 0.8, marginTop: 10}}>
+      <Text style={styles.text}>Search by Categories</Text>
+      <DropDownPicker
+        open={open}
+        value={value}
+        items={items}
+        setOpen={setOpen}
+        setValue={setValue}
+        setItems={setItems}
+      />
 
-          <View style={{alignItems: 'flex-end'}}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                if (value === null) {
-                  setCategories(true);
-                } else if (value === 'Engineering') {
-                  navigation.navigate('University', {
-                    value: value,
-                    UniList: engUni,
-                  });
-                } else if (value === 'Medical') {
-                  navigation.navigate('University', {
-                    value: value,
-                    UniList: medUni,
-                  });
-                } else if (value === 'Business') {
-                  navigation.navigate('University', {
-                    value: value,
-                    UniList: businessUni,
-                  });
-                }
-              }}>
-              <Text style={styles.buttonText}> GO </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View
-          style={{
-            borderBottomColor: 'grey',
-            borderBottomWidth: 1,
-            width: 900,
-            marginTop: 20,
-          }}
-        />
-        <View style={{marginTop: 20}}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}> Consult with our chat bot</Text>
-          </TouchableOpacity>
-        </View>
-        <View
-          style={{
-            borderBottomColor: 'grey',
-            borderBottomWidth: 1,
-            width: 900,
-            marginTop: 20,
-          }}
-        />
-        <View style={{marginTop: 20}}>
-          <View style={{flexDirection: 'row'}}>
-            <ADIcons
-              name="star"
-              color="gold"
-              style={{
-                alignSelf: 'center',
-                marginHorizontal: 5,
-              }}
-              size={20}
-            />
-
-            <Text
-              style={{
-                fontSize: 20,
-                color: colors.textColor,
-                fontWeight: 'bold',
-              }}>
-              Top Rated Universities
-            </Text>
-            <ADIcons
-              name="star"
-              color="gold"
-              style={{alignSelf: 'center', marginHorizontal: 5}}
-              size={20}
-            />
-          </View>
-          <View style={{paddingVertical: 10}}>
-            <FlatList
-              data={topRated}
-              renderItem={({item}) => {
-                return (
-                  <TouchableOpacity
-                    style={styles.uniButtons}
-                    onPress={() => {
-                      navigation.navigate('Description', {item: item});
-                    }}>
-                    <View style={{flexDirection: 'row'}}>
-                      <Image
-                        source={item.logo}
-                        style={{height: 100, width: 100}}
-                        resizeMode="contain"
-                      />
-
-                      <View style={{width: '68%', paddingHorizontal: 10}}>
-                        <Text numberOfLines={1} style={styles.uniButtonText}>
-                          {item.name}
-                        </Text>
-                        <Text numberOfLines={4} style={{color: 'grey'}}>
-                          {item.description}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              }}
-            />
-          </View>
-        </View>
+      <View style={{alignItems: 'flex-end'}}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            if (value === null) {
+              setCategories(true);
+            } else if (value === 'Engineering') {
+              navigation.navigate('University', {
+                value: value,
+                UniList: engUni,
+              });
+            } else if (value === 'Medical') {
+              navigation.navigate('University', {
+                value: value,
+                UniList: medUni,
+              });
+            } else if (value === 'Business') {
+              navigation.navigate('University', {
+                value: value,
+                UniList: businessUni,
+              });
+            }
+          }}>
+          <Text style={styles.buttonText}> GO </Text>
+        </TouchableOpacity>
       </View>
-      <AwesomeAlert
-        show={categories}
-        title="Empty"
-        message="Please select a category!"
-        showConfirmButton={true}
-        confirmText="OK"
-        confirmButtonColor={colors.background}
-        onConfirmPressed={() => {
-          setCategories(false);
+    </View>
+  );
+  const consult = (
+    <View style={{marginTop: 10}}>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}> Consult with our chat bot</Text>
+      </TouchableOpacity>
+    </View>
+  );
+  const topRatedUniversities = (
+    <View style={{flexDirection: 'row'}}>
+      <ADIcons
+        name="star"
+        color="gold"
+        style={{alignSelf: 'center', marginHorizontal: 5}}
+        size={20}
+      />
+      <Text style={styles.topRated}>Top Rated Universities</Text>
+      <ADIcons
+        name="star"
+        color="gold"
+        style={{alignSelf: 'center', marginHorizontal: 5}}
+        size={20}
+      />
+    </View>
+  );
+  const list = (
+    <View style={{paddingVertical: 10}}>
+      <FlatList
+        data={topRated}
+        renderItem={({item}) => {
+          return (
+            <TouchableOpacity
+              style={styles.uniButtons}
+              onPress={() => {
+                navigation.navigate('Description', {item: item});
+              }}>
+              <View style={{flexDirection: 'row'}}>
+                <Image
+                  source={item.logo}
+                  style={{height: 100, width: 100}}
+                  resizeMode="contain"
+                />
+
+                <View style={{width: '68%', paddingHorizontal: 10}}>
+                  <Text numberOfLines={1} style={styles.uniButtonText}>
+                    {item.name}
+                  </Text>
+                  <Text numberOfLines={4} style={{color: 'grey'}}>
+                    {item.description}
+                  </Text>
+                </View>
+              </View>
+            </TouchableOpacity>
+          );
         }}
       />
+    </View>
+  );
+  const emptyAlert = (
+    <AwesomeAlert
+      show={categories}
+      title="Empty"
+      message="Please select a category!"
+      showConfirmButton={true}
+      confirmText="OK"
+      confirmButtonColor={colors.background}
+      onConfirmPressed={() => {
+        setCategories(false);
+      }}
+    />
+  );
+  return (
+    <ScrollView style={styles.scroll}>
+      <View style={styles.main}>
+        {logo}
+        {divider}
+        {searchCategories}
+        {divider}
+        {consult}
+        {divider}
+        <View style={{marginTop: 20}}>
+          {topRatedUniversities}
+          {list}
+        </View>
+      </View>
+      {emptyAlert}
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scroll: {
+    backgroundColor: colors.background,
+    height: '100%',
+  },
   main: {
     height: '100%',
     backgroundColor: colors.background,
@@ -313,7 +305,17 @@ const styles = StyleSheet.create({
     color: colors.background,
     fontSize: 17,
     fontWeight: 'bold',
-    // flexWrap: 'nowrap',
+  },
+  divider: {
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1,
+    width: 900,
+    marginTop: 10,
+  },
+  topRated: {
+    fontSize: 20,
+    color: colors.textColor,
+    fontWeight: 'bold',
   },
 });
 
