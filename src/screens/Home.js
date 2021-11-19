@@ -23,6 +23,7 @@ import KUBS from '../assets/KUBS.png';
 import JSMU from '../assets/JSMU.png';
 import BUMDC from '../assets/BUMDC.png';
 import BMU from '../assets/BMU.png';
+import ADIcons from 'react-native-vector-icons/AntDesign';
 
 const Home = ({navigation}) => {
   const [categories, setCategories] = useState(false);
@@ -204,10 +205,32 @@ const Home = ({navigation}) => {
           }}
         />
         <View style={{marginTop: 20}}>
-          <Text
-            style={{fontSize: 20, color: colors.textColor, fontWeight: 'bold'}}>
-            Top Rated Universities
-          </Text>
+          <View style={{flexDirection: 'row'}}>
+            <ADIcons
+              name="star"
+              color="gold"
+              style={{
+                alignSelf: 'center',
+                marginHorizontal: 5,
+              }}
+              size={20}
+            />
+
+            <Text
+              style={{
+                fontSize: 20,
+                color: colors.textColor,
+                fontWeight: 'bold',
+              }}>
+              Top Rated Universities
+            </Text>
+            <ADIcons
+              name="star"
+              color="gold"
+              style={{alignSelf: 'center', marginHorizontal: 5}}
+              size={20}
+            />
+          </View>
           <View style={{paddingVertical: 10}}>
             <FlatList
               data={topRated}
@@ -225,11 +248,13 @@ const Home = ({navigation}) => {
                         resizeMode="contain"
                       />
 
-                      <View style={{width: 250, paddingHorizontal: 10}}>
+                      <View style={{width: '68%', paddingHorizontal: 10}}>
                         <Text numberOfLines={1} style={styles.uniButtonText}>
                           {item.name}
                         </Text>
-                        <Text numberOfLines={4}>{item.description}</Text>
+                        <Text numberOfLines={4} style={{color: 'grey'}}>
+                          {item.description}
+                        </Text>
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -288,7 +313,7 @@ const styles = StyleSheet.create({
     color: colors.background,
     fontSize: 17,
     fontWeight: 'bold',
-    flexWrap: 'nowrap',
+    // flexWrap: 'nowrap',
   },
 });
 

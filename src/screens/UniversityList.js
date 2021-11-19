@@ -30,10 +30,10 @@ const UniversityList = ({navigation, route}) => {
     if (!text || text === '') {
       setData(UniList);
       setEmpty(false);
-      //console.log(`empty`);
+      console.log(`empty`);
     } else if (!Array.isArray(filteredName) && !filteredName.length) {
       // set no data flag to true so as to render flatlist conditionally
-      //console.log(`wrong`);
+      console.log(`wrong`);
       setData([]);
     } else if (Array.isArray(filteredName)) {
       setData(filteredName);
@@ -53,6 +53,34 @@ const UniversityList = ({navigation, route}) => {
   const [dataCopy] = useState(UniList);
   //console.log(`data`, data);
   const [empty, setEmpty] = useState(false);
+  const search = (
+    <View
+      style={{
+        marginVertical: 22,
+        justifyContent: 'center',
+        alignItems: 'center',
+        //backgroundColor: 'red',
+      }}>
+      <TextInput
+        placeholder="Search..."
+        placeholderTextColor="white"
+        style={{
+          borderColor: 'white',
+          borderWidth: 2,
+          height: 40,
+          width: '70%',
+          paddingHorizontal: 10,
+          color: 'white',
+        }}
+        value={query}
+        onChangeText={e => {
+          handleSearch(e);
+          setQuery(e);
+          console.log(query);
+        }}
+      />
+    </View>
+  );
 
   return (
     <ScrollView style={{backgroundColor: colors.background, height: '100%'}}>
@@ -66,6 +94,7 @@ const UniversityList = ({navigation, route}) => {
           <TouchableOpacity
             style={{
               paddingVertical: 22,
+              //backgroundColor: 'blue',
             }}
             onPress={() => {
               navigation.navigate('Home');
@@ -74,10 +103,10 @@ const UniversityList = ({navigation, route}) => {
           </TouchableOpacity>
           <View
             style={{
-              flex: 1.5,
+              // flex: 1.5,
               //backgroundColor: 'red',
-              justifyContent: 'flex-end',
-              alignItems: 'flex-end',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}>
             <Image
               source={Logo}
@@ -85,80 +114,93 @@ const UniversityList = ({navigation, route}) => {
               resizeMode="contain"
             />
           </View>
-          <View
-            style={{
-              marginVertical: 22,
-            }}>
-            <TextInput
-              placeholder="Search..."
-              placeholderTextColor="white"
-              style={{
-                borderColor: 'white',
-                borderWidth: 2,
-                height: 40,
-                width: 100,
-                paddingHorizontal: 10,
-                color: 'white',
-              }}
-              value={query}
-              onChangeText={e => {
-                handleSearch(e);
-                setQuery(e);
-                console.log(query);
-              }}
-            />
-          </View>
+          <View style={{flex: 0.2}}></View>
         </View>
         <View>
           <Text style={styles.text}>{`List of ${value} Universities`}</Text>
         </View>
         <View style={{paddingVertical: 10}}>
           {empty ? (
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 300,
-              }}>
-              <Text
+            <>
+              <View
                 style={{
-                  color: 'grey',
-                  fontSize: 35,
-                  fontWeight: 'bold',
+                  marginVertical: 22,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  //backgroundColor: 'red',
                 }}>
-                No Results
-              </Text>
-            </View>
+                <TextInput
+                  placeholder="Search..."
+                  placeholderTextColor="white"
+                  style={{
+                    borderColor: 'white',
+                    borderWidth: 2,
+                    height: 40,
+                    width: '70%',
+                    paddingHorizontal: 10,
+                    color: 'white',
+                  }}
+                  value={query}
+                  onChangeText={e => {
+                    handleSearch(e);
+                    setQuery(e);
+                    console.log(query);
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 300,
+                }}>
+                <Text
+                  style={{
+                    color: 'grey',
+                    fontSize: 35,
+                    fontWeight: 'bold',
+                  }}>
+                  No Results
+                </Text>
+              </View>
+            </>
           ) : (
-            <FlatList
-              data={data}
-              renderItem={({item}) => {
-                return (
-                  <>
-                    <TouchableOpacity
-                      style={styles.uniButtons}
-                      onPress={() => {
-                        navigation.navigate('Description', {item: item});
-                      }}>
-                      <View style={{flexDirection: 'row'}}>
-                        <Image
-                          source={item.logo}
-                          style={{height: 100, width: 100}}
-                          resizeMode="contain"
-                        />
+            <>
+              <FlatList
+                ListHeaderComponent={search}
+                data={data}
+                renderItem={({item}) => {
+                  return (
+                    <>
+                      <TouchableOpacity
+                        style={styles.uniButtons}
+                        onPress={() => {
+                          navigation.navigate('Description', {item: item});
+                        }}>
+                        <View style={{flexDirection: 'row'}}>
+                          <Image
+                            source={item.logo}
+                            style={{height: 100, width: 100}}
+                            resizeMode="contain"
+                          />
 
-                        <View style={{width: 250, paddingHorizontal: 10}}>
-                          <Text numberOfLines={1} style={styles.uniButtonText}>
-                            {item.name}
-                          </Text>
-                          <Text numberOfLines={4}>{item.description}</Text>
+                          <View style={{width: '68%', paddingHorizontal: 10}}>
+                            <Text
+                              numberOfLines={1}
+                              style={styles.uniButtonText}>
+                              {item.name}
+                            </Text>
+                            <Text numberOfLines={4} style={{color: 'grey'}}>
+                              {item.description}
+                            </Text>
+                          </View>
                         </View>
-                      </View>
-                    </TouchableOpacity>
-                  </>
-                );
-              }}
-            />
+                      </TouchableOpacity>
+                    </>
+                  );
+                }}
+              />
+            </>
           )}
         </View>
       </View>
